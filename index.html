@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Azure Bakery — Freshness in Every Bite. Fresh small-batch bakes with oats, millets and whole grains.">
+  <meta name="theme-color" content="#f6efe6">
+  <title>Azure Bakery | Freshness in Every Bite</title>
+
+  <!-- Optional web fonts. The site still works with system fonts if these cannot load. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       AZURE BAKERY — BRAND SETTINGS
+       Change these colour variables to customise the whole site.
+       ========================================================= */
+    :root {
+      --cream: #f6efe6;
+      --paper: #fffdf9;
+      --peach: #edc9b4;
+      --peach-light: #f5e2d5;
+      --brown: #49372d;
+      --brown-soft: #755d50;
+      --muted: #8c7c70;
+      --sage: #89927b;
+      --line: rgba(73, 55, 45, .13);
+      --shadow: 0 18px 55px rgba(73, 55, 45, .09);
+      --serif: "Playfair Display", Georgia, serif;
+      --sans: "DM Sans", Arial, sans-serif;
+      --radius: 22px;
+      --content: 1160px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body {
+      margin: 0;
+      color: var(--brown);
+      background: var(--paper);
+      font-family: var(--sans);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .container { width: min(var(--content), calc(100% - 44px)); margin-inline: auto; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      color: var(--brown-soft); font-size: .72rem; font-weight: 700;
+      letter-spacing: .19em; text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 25px; height: 1px; background: var(--peach); }
+    .section { padding: 104px 0; }
+    .section-heading { max-width: 650px; margin-bottom: 42px; }
+    .section-heading h2 {
+      margin: 13px 0 14px; font: 500 clamp(2.2rem, 4vw, 3.45rem)/1.12 var(--serif);
+      letter-spacing: -.035em;
+    }
+    .section-heading p { margin: 0; color: var(--muted); max-width: 570px; }
+    .btn {
+      min-height: 50px; display: inline-flex; justify-content: center; align-items: center;
+      gap: 10px; padding: 0 23px; border: 1px solid var(--brown);
+      border-radius: 999px; background: var(--brown); color: white;
+      font-size: .83rem; font-weight: 700; letter-spacing: .025em;
+      cursor: pointer; transition: transform .25s, background .25s, color .25s, box-shadow .25s;
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(73,55,45,.16); }
+    .btn-outline { background: transparent; color: var(--brown); }
+    .btn-outline:hover { background: var(--brown); color: white; }
+    .text-link { display: inline-flex; align-items: center; gap: 8px; font-size: .84rem; font-weight: 700; }
+    .text-link span { transition: transform .2s; }
+    .text-link:hover span { transform: translateX(4px); }
+
+    /* Navigation */
+    .site-header {
+      position: sticky; top: 0; z-index: 1000; background: rgba(255,253,249,.91);
+      backdrop-filter: blur(16px); border-bottom: 1px solid rgba(73,55,45,.08);
+    }
+    .nav-wrap { min-height: 78px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; flex-direction: column; line-height: 1; }
+    .brand-name { font: 600 1.55rem var(--serif); letter-spacing: -.04em; }
+    .brand-tag { margin-top: 7px; font-size: .55rem; letter-spacing: .2em; color: var(--muted); text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: clamp(18px, 3vw, 35px); }
+    .nav-links a { color: var(--brown-soft); font-size: .79rem; font-weight: 600; transition: color .2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--brown); }
+    .nav-cta { min-height: 42px; padding-inline: 18px; font-size: .75rem; }
+    .menu-toggle {
+      display: none; width: 44px; height: 44px; border: 1px solid var(--line);
+      border-radius: 50%; background: transparent; color: var(--brown); cursor: pointer;
+    }
+
+    /* Hero */
+    .hero {
+      position: relative; overflow: hidden; padding: 72px 0 84px;
+      background: radial-gradient(circle at 78% 30%, rgba(237,201,180,.48), transparent 32%),
+                  linear-gradient(125deg, #f8f1e9 0%, #f6e8dc 54%, #f3e3d7 100%);
+    }
+    .hero::after {
+      content: ""; position: absolute; width: 430px; height: 430px; border: 1px solid rgba(117,93,80,.12);
+      border-radius: 50%; right: -180px; bottom: -270px;
+    }
+    .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.02fr .98fr; align-items: center; gap: 55px; }
+    .hero-copy { padding: 25px 0; }
+    .hero h1 {
+      max-width: 650px; margin: 20px 0 22px; font: 500 clamp(3.25rem, 6.5vw, 6rem)/.99 var(--serif);
+      letter-spacing: -.055em;
+    }
+    .hero h1 em { color: #a66f55; font-weight: 400; }
+    .hero-copy > p { max-width: 500px; color: var(--brown-soft); font-size: 1rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .hero-note { display: flex; align-items: center; gap: 12px; margin-top: 36px; color: var(--muted); font-size: .75rem; }
+    .note-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--sage); }
+    .hero-visual { position: relative; min-height: 500px; }
+    .hero-photo {
+      position: absolute; inset: 8px 24px 24px 35px; overflow: hidden;
+      border-radius: 48% 48% 18px 18px; background: #dfc3ad; box-shadow: var(--shadow);
+    }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-stamp {
+      position: absolute; left: 0; bottom: 45px; width: 135px; height: 135px;
+      display: grid; place-content: center; text-align: center; border-radius: 50%;
+      background: var(--paper); box-shadow: var(--shadow); transform: rotate(-9deg);
+    }
+    .hero-stamp strong { font: 500 1.55rem var(--serif); }
+    .hero-stamp small { font-size: .56rem; letter-spacing: .15em; text-transform: uppercase; }
+
+    /* Product cards */
+    .products-section { background: var(--paper); }
+    .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .product-card {
+      overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius);
+      background: white; transition: transform .3s, box-shadow .3s;
+    }
+    .product-card:hover { transform: translateY(-7px); box-shadow: var(--shadow); }
+    .product-image { position: relative; aspect-ratio: 1.22 / 1; overflow: hidden; background: var(--peach-light); }
+    .product-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .55s; }
+    .product-card:hover .product-image img { transform: scale(1.055); }
+    .product-image .image-fallback {
+      display: none; width: 100%; height: 100%; place-items: center;
+      color: var(--brown-soft); font: 1.5rem var(--serif);
+      background: linear-gradient(135deg, var(--peach-light), var(--cream));
+    }
+    .product-info { padding: 21px 22px 22px; }
+    .product-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .product-meta h3 { margin: 0; font: 500 1.35rem var(--serif); }
+    .product-price { color: #9b6b51; font-size: .82rem; font-weight: 700; white-space: nowrap; }
+    .product-info p { min-height: 52px; margin: 10px 0 18px; color: var(--muted); font-size: .82rem; }
+    .product-info .btn { min-height: 42px; padding-inline: 17px; font-size: .72rem; }
+    .product-tag {
+      position: absolute; top: 14px; left: 14px; padding: 6px 11px; border-radius: 30px;
+      background: rgba(255,253,249,.92); color: var(--brown); font-size: .62rem;
+      font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    }
+
+    /* Signature feature */
+    .signature { padding: 25px 0 105px; background: var(--paper); }
+    .signature-card {
+      display: grid; grid-template-columns: 1fr 1fr; min-height: 430px; overflow: hidden;
+      border-radius: 28px; background: var(--brown); color: #fff9f1;
+    }
+    .signature-image { min-height: 400px; background: #b99b82; }
+    .signature-image img { width: 100%; height: 100%; object-fit: cover; }
+    .signature-copy { align-self: center; padding: clamp(35px, 6vw, 75px); }
+    .signature-copy .eyebrow { color: #e9c8b4; }
+    .signature-copy h2 { margin: 17px 0; font: 500 clamp(2.5rem, 4.5vw, 4rem)/1.05 var(--serif); }
+    .signature-copy p { max-width: 430px; color: rgba(255,249,241,.72); font-size: .9rem; }
+    .signature-copy .btn { margin-top: 18px; background: var(--peach); border-color: var(--peach); color: var(--brown); }
+    .signature-copy .btn:hover { background: #f6dfd0; }
+
+    /* Story / ragi revival */
+    .story-section { background: var(--cream); }
+    .story-grid { display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: 80px; }
+    .story-art { position: relative; min-height: 500px; }
+    .story-art img { position: absolute; inset: 0 45px 35px 0; width: calc(100% - 45px); height: calc(100% - 35px); object-fit: cover; border-radius: 180px 180px 18px 18px; }
+    .story-caption {
+      position: absolute; right: 0; bottom: 0; width: 185px; padding: 20px;
+      background: var(--paper); border-radius: 16px; box-shadow: var(--shadow);
+      font: 1.05rem/1.3 var(--serif);
+    }
+    .story-copy h2 { margin: 14px 0 20px; font: 500 clamp(2.3rem, 4vw, 3.5rem)/1.1 var(--serif); letter-spacing: -.035em; }
+    .story-copy p { color: var(--muted); font-size: .9rem; }
+    .story-points { display: grid; grid-template-columns: 1fr 1fr; gap: 17px; margin-top: 28px; }
+    .story-point { padding-top: 15px; border-top: 1px solid var(--line); }
+    .story-point strong { display: block; font: 500 1.05rem var(--serif); }
+    .story-point span { color: var(--muted); font-size: .75rem; }
+
+    /* Why choose us */
+    .benefit-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .benefit {
+      padding: 28px 23px; border: 1px solid var(--line); border-radius: 18px;
+      background: #fff; transition: transform .25s, background .25s;
+    }
+    .benefit:hover { transform: translateY(-5px); background: #fbf4ed; }
+    .benefit-icon {
+      width: 45px; height: 45px; display: grid; place-items: center; margin-bottom: 22px;
+      border-radius: 50%; background: var(--peach-light); color: var(--brown); font-size: 1.15rem;
+    }
+    .benefit h3 { margin: 0 0 8px; font: 500 1.2rem var(--serif); }
+    .benefit p { margin: 0; color: var(--muted); font-size: .78rem; }
+
+    /* FAQ */
+    .faq-section { background: #fbf8f3; }
+    .faq-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 75px; }
+    .faq-list { border-top: 1px solid var(--line); }
+    .faq-item { border-bottom: 1px solid var(--line); }
+    .faq-question {
+      width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 20px;
+      padding: 22px 0; border: 0; background: transparent; color: var(--brown);
+      text-align: left; font: 500 1.12rem var(--serif); cursor: pointer;
+    }
+    .faq-symbol { flex: 0 0 28px; width: 28px; height: 28px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; font: 1rem var(--sans); transition: transform .25s; }
+    .faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s; }
+    .faq-answer > div { overflow: hidden; }
+    .faq-answer p { margin: 0; padding: 0 35px 20px 0; color: var(--muted); font-size: .84rem; }
+    .faq-item.open .faq-answer { grid-template-rows: 1fr; }
+    .faq-item.open .faq-symbol { transform: rotate(45deg); }
+
+    /* Contact and footer */
+    .contact-section { padding: 95px 0; background: linear-gradient(120deg, #f3e1d4, #f8efe6); }
+    .contact-card {
+      display: grid; grid-template-columns: 1fr .8fr; gap: 50px; align-items: center;
+      padding: clamp(30px, 6vw, 65px); border: 1px solid rgba(73,55,45,.1);
+      border-radius: 28px; background: rgba(255,253,249,.78);
+    }
+    .contact-card h2 { margin: 14px 0; font: 500 clamp(2.4rem, 4.4vw, 3.8rem)/1.05 var(--serif); }
+    .contact-card p { max-width: 500px; color: var(--muted); }
+    .contact-details { display: grid; gap: 15px; }
+    .contact-detail { padding-bottom: 13px; border-bottom: 1px solid var(--line); }
+    .contact-detail span { display: block; color: var(--muted); font-size: .68rem; letter-spacing: .13em; text-transform: uppercase; }
+    .contact-detail strong, .contact-detail a { font-size: .9rem; font-weight: 600; overflow-wrap: anywhere; }
+    .contact-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+    footer { padding: 55px 0 24px; background: #403128; color: #fff8f0; }
+    .footer-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 50px; padding-bottom: 42px; }
+    .footer-brand .brand-name { font-size: 2rem; }
+    .footer-brand p { max-width: 290px; color: rgba(255,248,240,.63); font-size: .8rem; }
+    .footer-col h4 { margin: 4px 0 17px; color: #e9c8b4; font-size: .7rem; letter-spacing: .15em; text-transform: uppercase; }
+    .footer-links { display: grid; gap: 9px; }
+    .footer-links a, .footer-links span { color: rgba(255,248,240,.72); font-size: .8rem; }
+    .footer-links a:hover { color: white; }
+    .fssai-note { margin-top: 16px; color: rgba(255,248,240,.58); font-size: .67rem; line-height: 1.5; }
+    .footer-bottom { display: flex; justify-content: space-between; gap: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.15); color: rgba(255,248,240,.52); font-size: .7rem; }
+    .back-top {
+      position: fixed; right: 22px; bottom: 22px; z-index: 900; width: 46px; height: 46px;
+      border: 0; border-radius: 50%; background: var(--brown); color: white; font-size: 1.1rem;
+      box-shadow: var(--shadow); cursor: pointer; opacity: 0; pointer-events: none;
+      transform: translateY(10px); transition: opacity .2s, transform .2s;
+    }
+    .back-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .toast {
+      position: fixed; left: 50%; bottom: 24px; z-index: 1200; max-width: calc(100% - 36px);
+      padding: 12px 18px; border-radius: 12px; background: var(--brown); color: white;
+      font-size: .82rem; box-shadow: var(--shadow); transform: translate(-50%, 15px);
+      opacity: 0; pointer-events: none; transition: .25s;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    /* Responsive layouts */
+    @media (max-width: 900px) {
+      .nav-links { gap: 17px; }
+      .hero-grid { gap: 25px; }
+      .hero-visual { min-height: 430px; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+      .benefit-grid { grid-template-columns: repeat(2, 1fr); }
+      .story-grid { gap: 45px; }
+      .faq-layout { gap: 40px; }
+    }
+    @media (max-width: 700px) {
+      .container { width: min(100% - 34px, var(--content)); }
+      .section { padding: 76px 0; }
+      .nav-wrap { min-height: 70px; }
+      .menu-toggle { display: grid; place-items: center; }
+      .nav-cta { display: none; }
+      .nav-links {
+        position: absolute; top: 69px; left: 0; right: 0; display: none; flex-direction: column;
+        align-items: stretch; gap: 0; padding: 10px 22px 20px; background: var(--paper);
+        border-bottom: 1px solid var(--line); box-shadow: 0 18px 25px rgba(73,55,45,.07);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 12px 3px; border-bottom: 1px solid var(--line); }
+      .hero { padding: 45px 0 60px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 18px; }
+      .hero-copy { padding: 10px 0 0; }
+      .hero h1 { font-size: clamp(3.2rem, 14vw, 5rem); }
+      .hero-visual { min-height: 390px; }
+      .hero-photo { inset: 0 17px 15px 25px; }
+      .hero-stamp { width: 108px; height: 108px; bottom: 25px; }
+      .hero-stamp strong { font-size: 1.25rem; }
+      .signature { padding-bottom: 75px; }
+      .signature-card { grid-template-columns: 1fr; }
+      .signature-image { min-height: 280px; max-height: 340px; }
+      .signature-copy { padding: 34px 28px 40px; }
+      .story-grid { grid-template-columns: 1fr; gap: 45px; }
+      .story-art { min-height: 390px; }
+      .story-art img { inset: 0 35px 28px 0; width: calc(100% - 35px); height: calc(100% - 28px); }
+      .story-caption { width: 155px; padding: 15px; font-size: .92rem; }
+      .faq-layout { grid-template-columns: 1fr; gap: 20px; }
+      .contact-card { grid-template-columns: 1fr; gap: 30px; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 35px 25px; }
+      .footer-brand { grid-column: 1 / -1; }
+    }
+    @media (max-width: 480px) {
+      .product-grid { grid-template-columns: 1fr; gap: 18px; }
+      .product-image { aspect-ratio: 1.45 / 1; }
+      .product-info p { min-height: 0; }
+      .benefit-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .benefit { padding: 20px 16px; }
+      .story-points { gap: 13px; }
+      .hero-actions .btn { flex: 1 1 100%; }
+      .contact-actions .btn { width: 100%; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .footer-bottom { flex-direction: column; gap: 7px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <!-- =========================================================
+       EDIT YOUR BUSINESS DETAILS HERE.
+       WhatsApp number: international format, digits only.
+       Example format: 91XXXXXXXXXX (do not include + or spaces).
+       Leave blank until you are ready to add the real number.
+       ========================================================= -->
+  <script>
+    const AZURE_CONFIG = {
+      businessName: "Azure Bakery",
+      tagline: "Freshness in Every Bite",
+      whatsappNumber: "917846822237", // India country code + user-provided number
+      phoneDisplay: "7846822237",
+      phoneLink: "+917846822237",
+      email: "avneeshmohanty12@gmail.com",
+      address: "Bhubaneswar, Baramunda Housing Board Colony",
+      instagram: "",       // No Instagram page currently
+      facebook: "",        // No Facebook page currently
+      fssaiDisplay: "PRESENTATION DEMO — no real FSSAI registration number supplied",
+      currency: "₹",
+      products: [
+        {
+          name: "Multigrain Bread",
+          description: "A hearty everyday loaf made with a thoughtful blend of grains.",
+          price: "₹85 · 400 g",
+          image: "https://images.unsplash.com/photo-1589367920969-ab8e050bbb04?auto=format&fit=crop&w=900&q=80",
+          alt: "Freshly baked rustic bread",
+          tag: "Everyday favourite"
+        },
+        {
+          name: "Oats Cookies",
+          description: "A comforting, crunchy cookie with the goodness of oats.",
+          price: "₹110 · 200 g pack",
+          image: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=900&q=80",
+          alt: "Freshly baked cookies",
+          tag: "Oat goodness"
+        },
+        {
+          name: "Millet Muffins",
+          description: "Soft, flavourful muffins made with millet-inspired goodness.",
+          price: "₹45 · each",
+          image: "https://images.unsplash.com/photo-1607958996333-41aef7caefaa?auto=format&fit=crop&w=900&q=80",
+          alt: "Freshly baked muffins",
+          tag: "Millet choice"
+        },
+        {
+          name: "Fresh Fruit Cakes",
+          description: "A celebration-ready cake finished with fresh seasonal fruit.",
+          price: "From ₹450 · 500 g",
+          image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=900&q=80",
+          alt: "Beautiful fresh fruit cake",
+          tag: "Made to order"
+        },
+        {
+          name: "Banana Walnut Bread",
+          description: "A tender banana loaf with a lovely walnut crunch.",
+          price: "₹160 · 400 g",
+          image: "https://images.unsplash.com/photo-1606101273945-e9eba1c0f7b7?auto=format&fit=crop&w=900&q=80",
+          alt: "Banana walnut loaf",
+          tag: "Homestyle bake"
+        },
+        {
+          name: "Ragi Biscuits",
+          description: "A crisp, satisfying biscuit made with ragi flour.",
+          price: "₹100 · 200 g pack",
+          image: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=900&q=80",
+          alt: "A selection of handmade biscuits",
+          tag: "Ragi favourite"
+        }
+      ],
+      signature: {
+        name: "Azure Power Loaf",
+        description: "Our signature banana, oats and walnut loaf — a satisfying bake with familiar flavours and thoughtfully chosen ingredients. Perfect alongside a cup of tea or as an anytime treat.",
+        price: "₹180 · 400 g"
+      }
+    };
+  </script>
+
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#home" aria-label="Azure Bakery home">
+        <span class="brand-name">Azure Bakery</span>
+        <span class="brand-tag">Freshness in Every Bite</span>
+      </a>
+      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#menu">Our Menu</a>
+        <a href="#about">Our Story</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="btn nav-cta" href="#contact">Order Now <span aria-hidden="true">↗</span></a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navLinks">
+        <span aria-hidden="true">☰</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Thoughtfully baked, always fresh</span>
+          <h1>A little more goodness in <em>every bite.</em></h1>
+          <p>Welcome to Azure Bakery — a home bakery bringing you fresh, flavourful bakes with thoughtful ingredient choices. Discover the comfort of familiar favourites and the goodness of oats, ragi and whole grains.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#contact">Order Now <span aria-hidden="true">↗</span></a>
+            <a class="btn btn-outline" href="#menu">Explore Menu</a>
+          </div>
+          <div class="hero-note"><span class="note-dot"></span> Small-batch baking · Thoughtful ingredients · Made with care</div>
+        </div>
+        <div class="hero-visual" aria-label="Bakery treats">
+          <div class="hero-photo">
+            <img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?auto=format&fit=crop&w=1200&q=85" alt="Freshly baked cupcakes arranged on a table" fetchpriority="high">
+          </div>
+          <div class="hero-stamp"><strong>Made<br>with care</strong><small>From our home bakery</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products are rendered from AZURE_CONFIG.products above. -->
+    <section class="section products-section" id="menu">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">The Azure collection</span>
+          <h2>Good things, fresh from the oven.</h2>
+          <p>From everyday loaves to little treats, explore our growing range of bakes. Product availability and final pricing can be confirmed when you enquire. Prices are suggested presentation prices and may change with ingredient costs or customisation.</p>
+        </div>
+        <div class="product-grid" id="productGrid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- Signature product -->
+    <section class="signature">
+      <div class="container">
+        <div class="signature-card">
+          <div class="signature-image">
+            <img src="https://images.unsplash.com/photo-1606101273945-e9eba1c0f7b7?auto=format&fit=crop&w=1100&q=85" alt="A freshly baked golden banana loaf with nuts" loading="lazy">
+          </div>
+          <div class="signature-copy">
+            <span class="eyebrow">Our signature bake</span>
+            <h2>Meet the<br>Azure Power Loaf.</h2>
+            <p id="signatureDescription">A special banana, oats and walnut loaf — thoughtfully made for a delicious everyday moment.</p>
+            <p><strong id="signaturePrice">[Add price]</strong></p>
+            <button class="btn" id="signatureOrder">Enquire About This Loaf <span aria-hidden="true">↗</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About and ragi revival -->
+    <section class="section story-section" id="about">
+      <div class="container story-grid">
+        <div class="story-art">
+          <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=1000&q=85" alt="Fresh artisan bread on a bakery work surface" loading="lazy">
+          <div class="story-caption">Good ingredients. Honest baking. Everyday joy.</div>
+        </div>
+        <div class="story-copy">
+          <span class="eyebrow">A little about us</span>
+          <h2>Fresh bakes, with a thoughtful point of view.</h2>
+          <p>Azure Bakery is a home bakery founded with a simple idea: bakery treats can be delicious, welcoming and made with more thoughtful ingredient choices. We bring together the joy of fresh baking and alternatives that feature oats, millets, ragi and whole grains.</p>
+          <p>We believe in baking in small batches, paying attention to freshness and being clear about the ingredients used. Selected recipes use jaggery or very little added sugar; ask us about the sweetener used in each product. Every order receives personal attention, because the little details make a difference.</p>
+          <div class="story-points">
+            <div class="story-point"><strong>Freshness first</strong><span>Small-batch preparation and made-to-order care.</span></div>
+            <div class="story-point"><strong>Ingredient clarity</strong><span>Clear information about ingredients and allergens.</span></div>
+            <div class="story-point"><strong>Thoughtful choices</strong><span>Options featuring grains, oats and millets.</span></div>
+            <div class="story-point"><strong>Personal touch</strong><span>Careful attention to each customer order.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="millets">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Rooted in good choices</span>
+          <h2>Celebrating Odisha’s ragi revival.</h2>
+          <p>Odisha’s Shree Anna Abhiyan, formerly known as the Odisha Millets Mission, works to revive millet cultivation and consumption, with ragi as an important focus. Inspired by this effort and Odisha’s food traditions, Azure Bakery brings ragi into familiar bakery recipes in a fresh, enjoyable way. Azure Bakery is an independent home bakery and is not affiliated with the government programme.</p>
+        </div>
+        <div class="benefit-grid">
+          <article class="benefit"><div class="benefit-icon" aria-hidden="true">✳</div><h3>Celebrate ragi</h3><p>Discover familiar bakery treats made with ragi, a traditional grain with a strong place in Odisha’s food story.</p></article>
+          <article class="benefit"><div class="benefit-icon" aria-hidden="true">◌</div><h3>Everyday ingredients</h3><p>Bring oats, whole grains and familiar ingredients into the bakery mix.</p></article>
+          <article class="benefit"><div class="benefit-icon" aria-hidden="true">♡</div><h3>Made with care</h3><p>Focus on freshness, flavour and thoughtful preparation.</p></article>
+          <article class="benefit"><div class="benefit-icon" aria-hidden="true">✧</div><h3>Choices with clarity</h3><p>Ask us about ingredients, added sugar and allergen information.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why choose Azure -->
+    <section class="section" style="background:#fbf8f3" id="why-us">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">The Azure difference</span>
+          <h2>Thoughtful in every detail.</h2>
+          <p>We keep the process personal and the focus on bakes that taste as good as they feel to share.</p>
+        </div>
+        <div class="benefit-grid">
+          <article class="benefit"><div class="benefit-icon" aria-hidden="true">⌂</div><h3>Homemade</h3><p>Fresh, small-batch baking with the warmth of a home kitchen.</p></article>
+          <article class="benefit"><div class="benefit-icon" aria-hidden="true">✿</div><h3>Made with care</h3><p>Attention to preparation, quality and the little finishing touches.</p></article>
+          <article class="benefit"><div class="benefit-icon" aria-hidden="true">♡</div><h3>Made for you</h3><p>Personal attention for your preferences and special orders.</p></article>
+          <article class="benefit"><div class="benefit-icon" aria-hidden="true">❋</div><h3>Thoughtful options</h3><p>Choices with oats, millets and whole grains, with ingredient details available.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ accordion -->
+    <section class="section faq-section" id="faq">
+      <div class="container faq-layout">
+        <div class="section-heading">
+          <span class="eyebrow">A few helpful details</span>
+          <h2>Good to know before you order.</h2>
+          <p>Have another question? Send us a message and we'll be happy to help.</p>
+          <a class="text-link" href="#contact">Get in touch <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="faq-list">
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false"><span>How do I place an order?</span><span class="faq-symbol">+</span></button>
+            <div class="faq-answer"><div><p>Browse the menu and use an Order button to enquire through WhatsApp. We'll confirm availability, pricing and order details with you.</p></div></div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false"><span>Can I request a custom cake?</span><span class="faq-symbol">+</span></button>
+            <div class="faq-answer"><div><p>Custom requests can be discussed in advance. Share your preferred flavour, size, design and date so we can confirm what is possible.</p></div></div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false"><span>How much do products cost?</span><span class="faq-symbol">+</span></button>
+            <div class="faq-answer"><div><p>The menu shows our suggested starting prices and pack sizes. Custom cakes and special requests may cost more depending on size, flavour and design.</p></div></div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false"><span>How much notice should I give?</span><span class="faq-symbol">+</span></button>
+            <div class="faq-answer"><div><p>Advance notice is recommended, especially for custom cakes and larger orders. Please contact us with your required date and we'll confirm availability.</p></div></div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false"><span>Do you offer delivery?</span><span class="faq-symbol">+</span></button>
+            <div class="faq-answer"><div><p>Both home delivery and customer pickup are available. Please message us to confirm delivery availability and any delivery charge for your area.</p></div></div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false"><span>Can I check ingredients and allergens?</span><span class="faq-symbol">+</span></button>
+            <div class="faq-answer"><div><p>Yes. Please ask before ordering for the current ingredient and allergen information. Eggless, vegan, gluten-free and dairy-free options may be available for selected products on request. Please confirm the exact ingredients and preparation arrangements before ordering. Our kitchen may handle wheat, nuts, dairy and other allergens, so we cannot guarantee an allergen-free environment.</p></div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <div class="contact-card">
+          <div>
+            <span class="eyebrow">Let's make something delicious</span>
+            <h2>Your next favourite bake is just a message away.</h2>
+            <p>Have a question, a special request or an order in mind? Get in touch with Azure Bakery. We'll help you choose something lovely.</p>
+            <div class="contact-actions">
+              <a class="btn" href="#" id="contactWhatsApp">Order on WhatsApp <span aria-hidden="true">↗</span></a>
+              <a class="btn btn-outline" href="#menu">Browse the menu</a>
+            </div>
+          </div>
+          <div class="contact-details">
+            <div class="contact-detail"><span>Phone</span><strong id="contactPhone">[Add phone number]</strong></div>
+            <div class="contact-detail"><span>Email</span><a id="contactEmail" href="mailto:">[Add email address]</a></div>
+            <div class="contact-detail"><span>Location</span><strong id="contactAddress">[Add bakery location / service area]</strong></div>
+            <div class="contact-detail"><span>Hours</span><strong>Monday–Saturday · 8:00 AM–8:00 PM</strong></div>
+            <div class="contact-detail"><span>Ordering</span><strong>Home delivery and customer pickup</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a class="brand" href="#home">
+            <span class="brand-name">Azure Bakery</span>
+            <span class="brand-tag" style="color:#d8b8a4">Freshness in Every Bite</span>
+          </a>
+          <p>Fresh, thoughtful bakes made to bring a little more goodness to everyday moments.</p>
+          <div class="fssai-note">FSSAI information: <span id="fssaiText"></span><br>This is a presentation website. Do not treat this demo notice as a registration or certification.</div>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <div class="footer-links">
+            <a href="#home">Home</a><a href="#menu">Our Menu</a><a href="#about">Our Story</a>
+            <a href="#millets">Ragi Revival</a><a href="#faq">FAQs</a><a href="#contact">Contact</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Follow along</h4>
+          <div class="footer-links">
+            <span>Social media pages coming soon</span>
+            <a href="#contact">Order / Enquire</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year"></span> Azure Bakery. All rights reserved.</span>
+        <span>Freshness in Every Bite.</span>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-top" id="backTop" aria-label="Back to top">↑</button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // @ts-nocheck
+    // Acode may analyse this JavaScript as TypeScript; this directive prevents
+    // false implicit-any diagnostics in this plain JavaScript website.
+    // =========================================================
+    // SITE BEHAVIOUR — product cards, WhatsApp, menu, FAQ, etc.
+    // Most business edits are made in AZURE_CONFIG near the top.
+    // =========================================================
+    /** @param {string} selector @param {ParentNode} [root] */
+    const $ = (selector, root = document) => root.querySelector(selector);
+
+    /** @param {string} message */
+    function showToast(message) {
+      const toast = $("#toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 3500);
+    }
+
+    /** @param {string} message */
+    function getWhatsAppUrl(message) {
+      const number = (AZURE_CONFIG.whatsappNumber || "").replace(/\D/g, "");
+      if (!number) {
+        showToast("Please add your real WhatsApp number in AZURE_CONFIG before using order buttons.");
+        return null;
+      }
+      return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+    }
+
+    /** @param {string} productName */
+    function orderProduct(productName) {
+      const message = `Hello Azure Bakery! I would like to enquire about ${productName}. Please share availability and pricing.`;
+      const url = getWhatsAppUrl(message);
+      if (url) window.open(url, "_blank", "noopener,noreferrer");
+    }
+
+    function renderProducts() {
+      const grid = $("#productGrid");
+      grid.innerHTML = AZURE_CONFIG.products.map((product, index) => `
+        <article class="product-card">
+          <div class="product-image">
+            <img src="${product.image}" alt="${product.alt}" loading="lazy"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+            <div class="image-fallback" aria-hidden="true">${product.name}</div>
+            ${product.tag ? `<span class="product-tag">${product.tag}</span>` : ""}
+          </div>
+          <div class="product-info">
+            <div class="product-meta">
+              <h3>${product.name}</h3>
+              <span class="product-price">${product.price}</span>
+            </div>
+            <p>${product.description}</p>
+            <button class="btn btn-outline" type="button" data-product-index="${index}">Enquire / Order <span aria-hidden="true">↗</span></button>
+          </div>
+        </article>
+      `).join("");
+
+      grid.querySelectorAll("[data-product-index]").forEach(/** @param {Element} button */ button => {
+        button.addEventListener("click", () => {
+          const product = AZURE_CONFIG.products[Number(button.dataset.productIndex)];
+          orderProduct(product.name);
+        });
+      });
+    }
+
+    // Populate contact details and signature product from the config.
+    function applyBusinessDetails() {
+      document.title = `${AZURE_CONFIG.businessName} | ${AZURE_CONFIG.tagline}`;
+      $("#signatureDescription").textContent = AZURE_CONFIG.signature.description;
+      $("#signaturePrice").textContent = AZURE_CONFIG.signature.price;
+      $("#contactPhone").textContent = AZURE_CONFIG.phoneDisplay;
+      $("#contactAddress").textContent = AZURE_CONFIG.address;
+      $("#contactEmail").textContent = AZURE_CONFIG.email;
+      if (AZURE_CONFIG.email && !AZURE_CONFIG.email.startsWith("[")) {
+        $("#contactEmail").href = `mailto:${AZURE_CONFIG.email}`;
+      } else {
+        $("#contactEmail").href = "#";
+      }
+      $("#fssaiText").textContent = AZURE_CONFIG.fssaiDisplay;
+      $("#year").textContent = new Date().getFullYear();
+
+      const phoneLink = AZURE_CONFIG.phoneLink.replace(/[^\d+]/g, "");
+      if (phoneLink) {
+        $("#contactPhone").innerHTML = `<a href="tel:${phoneLink}">${AZURE_CONFIG.phoneDisplay}</a>`;
+      }
+
+      // Social media links are omitted because Azure Bakery has no pages yet.
+    }
+
+    // WhatsApp contact buttons use the same configurable number.
+    $("#contactWhatsApp").addEventListener("click", /** @param {MouseEvent} event */ event => {
+      event.preventDefault();
+      const url = getWhatsAppUrl("Hello Azure Bakery! I would like to place an order. Please share your menu and availability.");
+      if (url) window.open(url, "_blank", "noopener,noreferrer");
+    });
+    $("#signatureOrder").addEventListener("click", () => orderProduct(AZURE_CONFIG.signature.name));
+
+    // Mobile navigation opens and closes accessibly.
+    const menuToggle = $("#menuToggle");
+    const navLinks = $("#navLinks");
+    menuToggle.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+      menuToggle.querySelector("span").textContent = isOpen ? "×" : "☰";
+    });
+    navLinks.querySelectorAll("a").forEach(/** @param {HTMLAnchorElement} link */ link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Open navigation menu");
+        menuToggle.querySelector("span").textContent = "☰";
+      });
+    });
+
+    // FAQ accordion: one answer open at a time.
+    document.querySelectorAll(".faq-question").forEach(button => {
+      button.addEventListener("click", () => {
+        const item = button.closest(".faq-item");
+        const wasOpen = item.classList.contains("open");
+        document.querySelectorAll(".faq-item").forEach(other => {
+          other.classList.remove("open");
+          other.querySelector(".faq-question").setAttribute("aria-expanded", "false");
+        });
+        if (!wasOpen) {
+          item.classList.add("open");
+          button.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
+
+    // Back-to-top button appears after the visitor scrolls down.
+    const backTop = $("#backTop");
+    window.addEventListener("scroll", () => {
+      backTop.classList.toggle("visible", window.scrollY > 500);
+    }, { passive: true });
+    backTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+    // Highlight the current navigation section while scrolling.
+    const sections = document.querySelectorAll("main section[id]");
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            navLinks.querySelectorAll("a").forEach(/** @param {HTMLAnchorElement} link */ link => {
+              link.classList.toggle("active", link.getAttribute("href") === `#${entry.target.id}`);
+            });
+          }
+        });
+      }, { rootMargin: "-35% 0px -55% 0px" });
+      sections.forEach(section => observer.observe(section));
+    }
+
+    applyBusinessDetails();
+    renderProducts();
+  </script>
+</body>
+</html>
